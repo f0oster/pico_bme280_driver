@@ -1,0 +1,29 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Flash",
+			"type": "shell",
+			"command": "/Users/f0oster/code/openocd/src/openocd",
+			"args": [
+			  "-f",
+			  "interface/cmsis-dap.cfg",
+			  "-f",
+			  "target/rp2040.cfg",
+			  "-c",
+			  "adapter speed 5000; program {${command:cmake.launchTargetPath}} verify reset exit"
+			],
+			"problemMatcher": []
+		  },
+		{
+			"type": "cmake",
+			"label": "CMake: build",
+			"command": "build",
+			"problemMatcher": "$gcc",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}

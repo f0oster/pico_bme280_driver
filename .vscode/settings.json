@@ -1,0 +1,10 @@
+{
+    "cmake.buildBeforeRun":true,
+    "cmake.configureOnOpen":true,
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "cortex-debug.openocdPath.osx": "/Users/f0oster/code/openocd/src/openocd",
+    "files.associations": {
+        "stdlib.h": "c",
+        "cyw43_arch.h": "c"
+    }
+}
