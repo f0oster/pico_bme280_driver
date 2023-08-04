@@ -125,7 +125,7 @@ int bme280_init(BME280* bme280) {
     printf("read %d bytes starting from REG_TEMP_PRESS_CALIB (%x)\r\n", reg_read_seq(bme280, REG_TEMP_PRESS_CALIB, buf, CALIB_DATA_FIRST_CHUNK_LENGTH), REG_TEMP_PRESS_CALIB);
     bme280_store_contiguous_calib_temppress_data(bme280, buf);
     // Humidity calibration data
-    printf("read %d bytes starting from REG_TEMP_HUM_CALIB (%x)\r\n", reg_read_seq(bme280, 0xE1, buf, 7), 0xE1);
+    printf("read %d bytes starting from REG_HUM_CALIB (%x)\r\n", reg_read_seq(bme280, REG_HUM_CALIB, buf, 7), REG_HUM_CALIB);
     bme280_store_contiguous_calib_hum_data(bme280, buf);
 
     // Configuration
@@ -152,7 +152,7 @@ int bme280_init(BME280* bme280) {
 
 int bme280_get_raw_sensor_data(BME280* bme280) {
 
-    uint8_t buf[7];
+    uint8_t buf[8];
 
     // Bit 7,6,5 [2:0] osrs_t: 16x Temp Oversampling(101)
     // Bit 2,3,4 [2:0] osrs_p: 2x Pressure Oversampling (010)
