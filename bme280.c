@@ -1,14 +1,15 @@
 #include "bme280.h"
 #include "pico/stdlib.h"
 #include <stdio.h>
+#include <string.h>
 
 int reg_read_seq(BME280* bme280, const uint8_t reg, uint8_t* buf, const uint8_t num_bytes) {
-
-    int num_bytes_read = 0;
 
     if (num_bytes < 1) {
         return 0;
     }
+
+    int num_bytes_read = 0;
 
     i2c_write_blocking(bme280->i2c, bme280->address, &reg, 1, true);
     num_bytes_read = i2c_read_blocking(bme280->i2c, bme280->address, buf, num_bytes, false);
@@ -18,22 +19,20 @@ int reg_read_seq(BME280* bme280, const uint8_t reg, uint8_t* buf, const uint8_t 
 
 int reg_write_seq(BME280* bme280, const uint8_t reg, uint8_t* buf, const uint8_t num_bytes) {
     
-    int num_bytes_read = 0;
-    uint8_t msg[num_bytes + 1];
-
     if (num_bytes < 1) {
         return 0;
     }
 
-    // Append the target register address to front of buf packet
+    int num_bytes_written = 0;
+    uint8_t msg[num_bytes + 1];
+
+    // Preprend the target register address to the message
     msg[0] = reg;
-    for (int i = 0; i < num_bytes; i++) {
-        msg[i + 1] = buf[i];
-    }
+    memcpy(&msg[1], buf, num_bytes);
 
-    i2c_write_blocking(bme280->i2c, bme280->address, msg, (num_bytes + 1), false);
+    num_bytes_written = i2c_write_blocking(bme280->i2c, bme280->address, msg, (num_bytes + 1), false);
 
-    return num_bytes_read;
+    return num_bytes_written;
 }
 
 void bme280_store_contiguous_calib_temppress_data(BME280* bme280, uint8_t* reg_buffer) {
